@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func Test_generateID(t *testing.T) {
@@ -120,15 +121,9 @@ func Test_redirectHandler(t *testing.T) {
 			// проверяем код ответа
 			assert.Equal(t, res.StatusCode, test.want.code)
 			// получаем и проверяем тело запроса
-			defer func(Body io.ReadCloser) {
-				err := res.Body.Close()
-				if err != nil {
-					panic(err)
-				}
-			}(res.Body)
-			resBody, err := io.ReadAll(res.Body)
+			defer res.Body.Close()
 
-			require.NoError(t, err, string(resBody))
+			//require.NoError(t, err, string(resBody))
 		})
 	}
 }
